@@ -6,7 +6,7 @@ const testMethod=()=>
   console.log("test");
 }
 
-testMethod();
+testMethod()
 </script>
 
 <template>
