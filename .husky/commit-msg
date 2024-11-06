@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 本地仓库向远程仓库提交信息的时候执行
+pnpm commitlint

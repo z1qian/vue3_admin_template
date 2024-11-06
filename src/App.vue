@@ -1,11 +1,5 @@
 <script setup lang="ts" name="App">
-let str = '我爱你祖国'
 
-const testMethod = () => {
-  console.log('test')
-}
-
-testMethod()
 </script>
 
 <template>
@@ -15,12 +9,5 @@ testMethod()
 </template>
 
 <style scoped lang="scss">
-.box {
-  width: 600px;
-  height: 400px;
-  background-color: black;
-  h1 {
-    color: white;
-  }
-}
+
 </style>
