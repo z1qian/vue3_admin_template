@@ -1,13 +1,9 @@
-<script setup lang="ts" name="App">
-
-</script>
+<script setup lang="ts" name="App"></script>
 
 <template>
-  <div class="box">
-    <h1>我是App</h1>
+  <div class="App">
+    <RouterView></RouterView>
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
