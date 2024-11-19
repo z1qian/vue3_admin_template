@@ -9,7 +9,7 @@ function createUserList(): userResponseMockData[] {
     {
       avatar:
         'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-      name: 'jklasdas',
+      name: '大哥别动我',
       password: '1234567890Zxc',
       roles: ['超级管理员'],
       buttons: [

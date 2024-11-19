@@ -1,6 +1,6 @@
 // 品牌管理模块接口
 import request from '@/utils/request.ts'
-import type { brandPageListResponseData, Brand } from './type'
+import type { brandPageListResponseData, brand } from './type'
 import { AxiosRequestConfig } from 'axios'
 
 // 统一管理接口
@@ -9,6 +9,7 @@ enum API {
   BRAND_URL = '/admin/product/baseTrademark',
   ADD_URL = '/admin/product/baseTrademark/save',
   UPDATE_URL = '/admin/product/baseTrademark/update',
+  DEL_URL = '/admin/product/baseTrademark/remove'
 }
 
 // 暴露请求函数
@@ -24,8 +25,8 @@ export const reqGetBrandPageList = (
   })
 
 // 添加或修改品牌接口的方法
-export const reqUpsertBrand = (brand: Brand): Promise<null> => {
-  let config: AxiosRequestConfig<Brand> = { data: brand }
+export const reqUpsertBrand = (brand: brand): Promise<null> => {
+  let config: AxiosRequestConfig<brand> = { data: brand }
   if (brand.id) {
     // 修改
     config.method = 'put'
@@ -37,3 +38,10 @@ export const reqUpsertBrand = (brand: Brand): Promise<null> => {
 
   return request.customRequest<null>(config)
 }
+
+// 删除品牌接口的方法
+export const reqDelBrand = (id: number): Promise<null> =>
+  request.customRequest<null>({
+    method: 'delete',
+    url: `${API.DEL_URL}/${id}`,
+  })

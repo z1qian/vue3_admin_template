@@ -11,7 +11,7 @@ import type { loginFormData } from '@/apis/user/type'
 
 // 收集账号与密码的数据
 let formData = reactive<loginFormData>({
-  username: 'jklasdas',
+  username: '大哥别动我',
   password: '1234567890Zxc',
 })
 
@@ -25,7 +25,7 @@ const validateUserName = (_: any, value: string, callback: any) => {
   // 手机号验证的正则表达式
   const phoneRegex = /^1[3-9]\d{9}$/
 
-  if (value === 'admin' || phoneRegex.test(value) || value === 'jklasdas') {
+  if (value === 'admin' || phoneRegex.test(value) || value === '大哥别动我') {
     callback()
   } else {
     callback(new Error('请输入你的手机号'))
@@ -116,39 +116,18 @@ const login = async (formEl: FormInstance | undefined) => {
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="{ span: 22, offset: 2 }">
         <!-- 登录的表单 -->
-        <el-form
-          class="login_form"
-          ref="loginForm"
-          :model="formData"
-          status-icon
-          :rules="rules"
-          inline-message
-        >
+        <el-form class="login_form" ref="loginForm" :model="formData" status-icon :rules="rules" inline-message>
           <h1>Hello</h1>
           <h2>欢迎来到硅谷甄选</h2>
           <el-form-item prop="username">
-            <el-input
-              :prefix-icon="User"
-              v-model.trim="formData.username"
-              placeholder="请输入用户名"
-            ></el-input>
+            <el-input :prefix-icon="User" v-model.trim="formData.username" placeholder="请输入用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              type="password"
-              :prefix-icon="Lock"
-              v-model.trim="formData.password"
-              show-password
-              placeholder="请输入密码"
-            ></el-input>
+            <el-input type="password" :prefix-icon="Lock" v-model.trim="formData.password" show-password
+              placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              :loading="loading"
-              type="primary"
-              class="login_btn"
-              @click="login(loginForm)"
-            >
+            <el-button :loading="loading" type="primary" class="login_btn" @click="login(loginForm)">
               登录
             </el-button>
           </el-form-item>

@@ -1,11 +1,12 @@
 <script setup lang="ts" name="brand">
-import { ref, onMounted, reactive } from 'vue'
-import { reqGetBrandPageList } from '@/apis/product/brand/index'
+import { ref, onMounted, reactive, computed, nextTick } from 'vue'
+import { reqGetBrandPageList, reqUpsertBrand, reqDelBrand } from '@/apis/product/brand/index'
 import type {
   brandPageListResponseData,
   brand,
 } from '@/apis/product/brand/type'
-import { ElMessage, UploadRawFile } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import type { UploadRawFile, FormRules, FormInstance } from 'element-plus'
 
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(3)
@@ -13,8 +14,35 @@ const pagedBrandList = ref<brandPageListResponseData | undefined>()
 // 是否显示添加，修改品牌对话框
 const showDialog = ref<boolean>(false)
 const brandFormData = reactive<brand>({
+  id: 0,
   tmName: '',
   logoUrl: '',
+})
+// 添加，修改品牌表单
+const brandForm = ref<FormInstance>()
+
+// Dialog的标题
+const dialogTitle = computed(() => {
+  return brandFormData.id ? '修改品牌' : '添加品牌'
+})
+
+// 表单验证-是否上传图片
+const validateUpload = (_rule: any, value: string, callback: any) => {
+  if (!value.length) {
+    callback(new Error("请上传品牌图片"));
+  }
+  else {
+    callback();
+  }
+}
+
+// 表单验证规则
+const rules = reactive<FormRules<brand>>({
+  tmName: [
+    { required: true, min: 2, message: '请输入至少2位品牌名称', trigger: 'blur' }],
+  logoUrl: [
+    { required: true, validator: validateUpload }
+  ]
 })
 
 onMounted(async () => {
@@ -66,86 +94,102 @@ const onSuccess = (response: any) => {
   // 上传文件成功
   if (response.code == 200) {
     brandFormData.logoUrl = response.data
+    brandForm.value?.clearValidate("logoUrl");
   }
+}
+
+// 添加或修改品牌数据
+const upsertBrand = async () => {
+  // 验证表单，如果不通过，会报错，中断以下代码的执行，验证通过，则继续向下执行代码
+  await brandForm.value?.validate()
+  await reqUpsertBrand(brandFormData);
+  ElMessage({
+    type: 'success',
+    message: dialogTitle.value + '成功',
+  })
+  showDialog.value = false;
+
+  // 修改品牌后，留在当前页
+  await getBrandPageList(dialogTitle.value == '修改品牌' ? currentPage.value : 1);
+}
+
+// 添加品牌按钮回调
+const addBrandBtn = async () => {
+  // 清除表单验证信息，方式一
+  // brandForm.value?.clearValidate();
+
+  showDialog.value = true;
+  Object.assign(brandFormData, { tmName: '', logoUrl: '', id: 0 })
+  // 清除表单验证信息，方式二
+  await nextTick()
+  brandForm.value!.clearValidate();
+}
+
+// 修改品牌按钮回调
+const editBrandBtn = async (row: brand) => {
+  // 清除表单验证信息，方式一
+  // brandForm.value?.clearValidate();
+  showDialog.value = true;
+  Object.assign(brandFormData, row)
+
+  // 清除表单验证信息，方式二
+  await nextTick()
+  brandForm.value!.clearValidate();
+}
+
+// 删除品牌
+const delBrand = async (id: number) => {
+  await reqDelBrand(id);
+  ElMessage({
+    type: 'success',
+    message: '删除品牌成功',
+  })
+  await getBrandPageList(pagedBrandList.value!.size <= 1 ?
+    currentPage.value - 1 : currentPage.value)
 }
 </script>
 
 <template>
   <div class="brand">
     <el-card>
-      <el-button type="primary" icon="plus" @click="showDialog = true">
+      <el-button type="primary" icon="plus" @click="addBrandBtn">
         添加品牌
       </el-button>
       <!-- 品牌数据展示表格 -->
-      <el-table
-        style="width: 100%; margin: 10px 0"
-        border
-        :data="pagedBrandList?.records"
-      >
-        <el-table-column
-          type="index"
-          label="序号"
-          width="80px"
-          align="center"
-        />
+      <el-table style="width: 100%; margin: 10px 0" border :data="pagedBrandList?.records">
+        <el-table-column type="index" label="序号" width="80px" align="center" />
         <el-table-column prop="tmName" label="品牌名称" />
         <el-table-column label="品牌Logo" v-slot="{ row }">
           <img :src="row.logoUrl" alt="" width="100px" />
         </el-table-column>
-        <el-table-column label="品牌操作">
-          <el-button
-            type="primary"
-            icon="edit"
-            size="small"
-            @click="showDialog = true"
-          ></el-button>
-          <el-button type="danger" icon="delete" size="small"></el-button>
+        <el-table-column label="品牌操作" v-slot="{ row }">
+          <el-button type="primary" icon="edit" size="small" @click="editBrandBtn(row)"></el-button>
+          <el-popconfirm :title="`你确定要删除【${row.tmName}】吗?`" width="auto" icon="delete" @confirm="delBrand(row.id)">
+            <template #reference>
+              <el-button type="danger" icon="delete" size="small"></el-button>
+            </template>
+          </el-popconfirm>
         </el-table-column>
       </el-table>
       <!-- 分页器 -->
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :page-sizes="[3, 6, 9, 12]"
-        size="default"
-        background
-        layout="prev, pager, next, jumper, -> , sizes, total"
-        :total="pagedBrandList?.total ?? 0"
-        @current-change="getBrandPageList"
-        @size-change="sizeChange"
-        @change="change"
-      />
+      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[3, 6, 9, 12]"
+        size="default" background layout="prev, pager, next, jumper, -> , sizes, total"
+        :total="pagedBrandList?.total ?? 0" @current-change="getBrandPageList" @size-change="sizeChange"
+        @change="change" />
     </el-card>
     <!-- 添加，修改品牌对话框 -->
-    <el-dialog v-model="showDialog" title="添加品牌">
+    <el-dialog v-model="showDialog" :title="dialogTitle">
       <!-- 品牌数据表单 -->
-      <el-form
-        :model="brandFormData"
-        label-width="80px"
-        label-position="left"
-        style="width: 80%"
-      >
-        <el-form-item label=" 品牌名称">
-          <el-input
-            v-model="brandFormData.tmName"
-            placeholder="请输入品牌名称"
-          />
+      <el-form :model="brandFormData" label-width="100px" label-position="left" style="width: 80%" :rules="rules"
+        ref="brandForm">
+        <el-form-item label="品牌名称" prop="tmName">
+          <el-input v-model.trim="brandFormData.tmName" placeholder="请输入品牌名称" />
         </el-form-item>
-        <el-form-item label="品牌Logo">
-          <el-upload
-            drag
-            accept=".jpeg, .jpg, .png, .gif"
-            class="avatar-uploader"
-            action="/admin/product/fileUpload"
-            :show-file-list="false"
-            :before-upload="beforeUpload"
-            :on-success="onSuccess"
-          >
-            <img
-              v-if="brandFormData.logoUrl"
-              :src="brandFormData.logoUrl"
-              class="avatar"
-            />
+        <el-form-item label="品牌Logo" prop="logoUrl">
+          <el-upload drag accept=".jpeg, .jpg, .png, .gif" class="avatar-uploader"
+            action="/api/admin/product/fileUpload" :show-file-list="false" :before-upload="beforeUpload"
+            :on-success="onSuccess">
+            <img v-if="brandFormData.logoUrl" :src="brandFormData.logoUrl" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon">
               <Plus />
             </el-icon>
@@ -155,7 +199,7 @@ const onSuccess = (response: any) => {
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="showDialog = false">取消</el-button>
-          <el-button type="primary" @click="">确定</el-button>
+          <el-button type="primary" @click="upsertBrand">确定</el-button>
         </div>
       </template>
     </el-dialog>
@@ -165,7 +209,7 @@ const onSuccess = (response: any) => {
 <style scoped lang="scss">
 .avatar-uploader .avatar {
   width: 178px;
-  height: 178px;
+  // height: 178px;
   display: block;
 }
 </style>
