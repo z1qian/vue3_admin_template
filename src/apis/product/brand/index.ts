@@ -9,7 +9,7 @@ enum API {
   BRAND_URL = '/admin/product/baseTrademark',
   ADD_URL = '/admin/product/baseTrademark/save',
   UPDATE_URL = '/admin/product/baseTrademark/update',
-  DEL_URL = '/admin/product/baseTrademark/remove'
+  DEL_URL = '/admin/product/baseTrademark/remove',
 }
 
 // 暴露请求函数

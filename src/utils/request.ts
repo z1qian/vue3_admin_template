@@ -6,7 +6,7 @@ import { getToken } from './token'
 // 第一步：利用axios对象的create方法，创建axios实例（配置其他的配置：基础路径，超时时间）
 const request = axios.create({
   // 基础路径
-  baseURL: import.meta.env.VITE_APP_BASE_API,   // 基础路径会携带/api
+  baseURL: import.meta.env.VITE_APP_BASE_API, // 基础路径会携带/api
   timeout: 5000, //超时时间的设置
 })
 
