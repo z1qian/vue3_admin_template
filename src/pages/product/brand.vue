@@ -264,7 +264,6 @@ const delBrand = async (id: number) => {
 
 <style scoped lang="scss">
 .avatar-uploader .avatar {
-
   // height: 178px;
   display: block;
   width: 178px;

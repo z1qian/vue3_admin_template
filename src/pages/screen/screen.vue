@@ -1,6 +1,4 @@
-<script setup lang='ts' name='screen'>
-
-</script>
+<script setup lang="ts" name="screen"></script>
 
 <template>
   <div class="screen">

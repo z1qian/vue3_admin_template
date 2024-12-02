@@ -19,7 +19,7 @@ enum API {
   SPUSALEATTRLIST_URL = '/admin/product/spuSaleAttrList',
   ADDSPU_URL = '/admin/product/saveSpuInfo',
   EDITSPU_URL = '/admin/product/updateSpuInfo',
-  DELSPU_URL = '/admin/product/deleteSpu'
+  DELSPU_URL = '/admin/product/deleteSpu',
 }
 
 // 暴露请求函数
@@ -74,7 +74,8 @@ export const reqUpsertSPU = (data: SpuRecord): Promise<null> => {
 }
 
 // 删除spu接口的方法
-export const reqDelSPU = (spuId: number): Promise<null> => request.customRequest<null>({
-  method: 'delete',
-  url: API.DELSPU_URL + '/' + spuId
-})
+export const reqDelSPU = (spuId: number): Promise<null> =>
+  request.customRequest<null>({
+    method: 'delete',
+    url: API.DELSPU_URL + '/' + spuId,
+  })

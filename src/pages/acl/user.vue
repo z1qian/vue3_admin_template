@@ -1,22 +1,22 @@
 <script setup lang="ts" name="User">
-import { ref, onMounted, reactive, nextTick } from 'vue';
+import { ref, onMounted, reactive, nextTick } from 'vue'
 import { reqGetPagedUser, reqUpsertUser } from '@/apis/acl/user'
 import type { PagedUserResponse, UserRecord } from '@/apis/acl/user/type'
-import { ElMessage, type FormRules, type FormInstance } from 'element-plus';
+import { ElMessage, type FormRules, type FormInstance } from 'element-plus'
 
 const currentPage = ref(1)
 const pageSize = ref(6)
-const pagedUserData = ref<PagedUserResponse>();
-const drawerUser = ref(false);
-const drawerRole = ref(false);
+const pagedUserData = ref<PagedUserResponse>()
+const drawerUser = ref(false)
+const drawerRole = ref(false)
 const userFormDataOriginal = {
   id: 0,
   username: '',
   password: '',
-  name: ''
-};
-const userFormData = ref<UserRecord>({ ...userFormDataOriginal });
-const userForm = ref<FormInstance>();
+  name: '',
+}
+const userFormData = ref<UserRecord>({ ...userFormDataOriginal })
+const userForm = ref<FormInstance>()
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
 const checkedCities = ref(['Shanghai', 'Beijing'])
@@ -70,13 +70,15 @@ const rules = reactive<FormRules<UserRecord>>({
       trigger: 'blur',
     },
   ],
-  name: [{
-    required: true,
-    min: 5,
-    max: 20,
-    message: '请输入5-20位昵称',
-    trigger: 'blur',
-  }],
+  name: [
+    {
+      required: true,
+      min: 5,
+      max: 20,
+      message: '请输入5-20位昵称',
+      trigger: 'blur',
+    },
+  ],
   password: [
     {
       required: true,
@@ -93,7 +95,7 @@ const rules = reactive<FormRules<UserRecord>>({
 })
 
 onMounted(() => {
-  getPagedUserData();
+  getPagedUserData()
 })
 
 const getPagedUserData = async (page: number = 1) => {
@@ -102,53 +104,57 @@ const getPagedUserData = async (page: number = 1) => {
 }
 
 const addUser = async () => {
-  drawerUser.value = true;
-  await nextTick();
+  drawerUser.value = true
+  await nextTick()
   // userForm.value!.resetFields();
-  Object.assign(userFormData.value, userFormDataOriginal);
+  Object.assign(userFormData.value, userFormDataOriginal)
 }
 
 const editUser = async (user: UserRecord) => {
-  drawerUser.value = true;
-  const { id, name, username } = user;
-  Object.assign(userFormData.value, { id, name, username });
+  drawerUser.value = true
+  const { id, name, username } = user
+  Object.assign(userFormData.value, { id, name, username })
 }
 
 // 添加或者修改用户
 const upsertUser = async () => {
   await userForm.value!.validate()
-  let op = userFormData.value.id ? '修改' : '添加';
-  await reqUpsertUser(userFormData.value);
-  drawerUser.value = false;
+  let op = userFormData.value.id ? '修改' : '添加'
+  await reqUpsertUser(userFormData.value)
+  drawerUser.value = false
   ElMessage({
     type: 'success',
-    message: `${op}成功`
+    message: `${op}成功`,
   })
   if (op == '添加') {
-    await getPagedUserData();
-  }
-  else {
+    await getPagedUserData()
+  } else {
     // await getPagedUserData(currentPage.value);
-    window.location.reload();
+    window.location.reload()
   }
 }
 
 const drawerClose = () => {
-  userForm.value!.clearValidate();
+  userForm.value!.clearValidate()
 }
 
 // 分配角色按钮回调
 const assignRole = (user: UserRecord) => {
-  drawerRole.value = true;
-  const { id, name, username, roleName } = user;
-  Object.assign(userFormData.value, { id, name, username, roleName });
+  drawerRole.value = true
+  const { id, name, username, roleName } = user
+  Object.assign(userFormData.value, { id, name, username, roleName })
 }
 </script>
 
 <template>
   <div class="user">
     <el-card>
-      <el-form label-width="60px" inline label-position="left" class="searchForm">
+      <el-form
+        label-width="60px"
+        inline
+        label-position="left"
+        class="searchForm"
+      >
         <el-form-item label="用户名">
           <el-input placeholder="请输入欲搜索的用户名" style="width: 240px" />
         </el-form-item>
@@ -161,44 +167,117 @@ const assignRole = (user: UserRecord) => {
     <el-card style="margin-top: 10px">
       <el-button type="primary" @click="addUser">添加用户</el-button>
       <el-button type="danger">批量删除</el-button>
-      <el-table border style="margin: 10px 0;" :data="pagedUserData?.records">
-        <el-table-column type="selection" width="55" align="center">
-        </el-table-column>
-        <el-table-column type="index" label="#" align="center">
-        </el-table-column>
-        <el-table-column prop="id" label="ID" align="center">
-        </el-table-column>
-        <el-table-column prop="username" label="用户名" align="center">
-        </el-table-column>
-        <el-table-column prop="name" label="用户名称" align="center">
-        </el-table-column>
-        <el-table-column prop="roleName" label="用户角色" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="updateTime" label="更新时间" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="prop" label="操作" align="center" width="270" v-slot="{ row }">
-          <el-button type="primary" icon="user" size="small" @click="assignRole(row)">分配角色</el-button>
-          <el-button type="warning" icon="edit" size="small" @click="editUser(row)">编辑</el-button>
+      <el-table border style="margin: 10px 0" :data="pagedUserData?.records">
+        <el-table-column
+          type="selection"
+          width="55"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          type="index"
+          label="#"
+          align="center"
+        ></el-table-column>
+        <el-table-column prop="id" label="ID" align="center"></el-table-column>
+        <el-table-column
+          prop="username"
+          label="用户名"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="name"
+          label="用户名称"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="roleName"
+          label="用户角色"
+          align="center"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="创建时间"
+          align="center"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          prop="updateTime"
+          label="更新时间"
+          align="center"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          prop="prop"
+          label="操作"
+          align="center"
+          width="270"
+          v-slot="{ row }"
+        >
+          <el-button
+            type="primary"
+            icon="user"
+            size="small"
+            @click="assignRole(row)"
+          >
+            分配角色
+          </el-button>
+          <el-button
+            type="warning"
+            icon="edit"
+            size="small"
+            @click="editUser(row)"
+          >
+            编辑
+          </el-button>
           <el-button type="danger" icon="delete" size="small">删除</el-button>
         </el-table-column>
       </el-table>
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[3, 6, 9, 12]"
-        size="default" background layout="prev, pager, next, jumper, -> , sizes, total"
-        :total="pagedUserData?.total ?? 0" @current-change="getPagedUserData" @size-change="getPagedUserData()" />
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[3, 6, 9, 12]"
+        size="default"
+        background
+        layout="prev, pager, next, jumper, -> , sizes, total"
+        :total="pagedUserData?.total ?? 0"
+        @current-change="getPagedUserData"
+        @size-change="getPagedUserData()"
+      />
     </el-card>
     <!-- 添加或者修改用户 -->
-    <el-drawer v-model="drawerUser" :title="`${userFormData.id ? '修改' : '添加'}用户`" size="40%" @close="drawerClose">
-      <el-form ref="userForm" :model="userFormData" label-width="80px" :rules="rules">
+    <el-drawer
+      v-model="drawerUser"
+      :title="`${userFormData.id ? '修改' : '添加'}用户`"
+      size="40%"
+      @close="drawerClose"
+    >
+      <el-form
+        ref="userForm"
+        :model="userFormData"
+        label-width="80px"
+        :rules="rules"
+      >
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="userFormData.username" placeholder="请输入用户名" size="default" />
+          <el-input
+            v-model="userFormData.username"
+            placeholder="请输入用户名"
+            size="default"
+          />
         </el-form-item>
         <el-form-item label="用户昵称" prop="name">
-          <el-input v-model="userFormData.name" placeholder="请输入用户昵称" size="default" />
+          <el-input
+            v-model="userFormData.name"
+            placeholder="请输入用户昵称"
+            size="default"
+          />
         </el-form-item>
         <el-form-item label="用户密码" prop="password" v-if="!userFormData.id">
-          <el-input v-model="userFormData.password" placeholder="请输入用户密码" size="default" />
+          <el-input
+            v-model="userFormData.password"
+            placeholder="请输入用户密码"
+            size="default"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -215,11 +294,23 @@ const assignRole = (user: UserRecord) => {
           <el-input disabled v-model="userFormData.username"></el-input>
         </el-form-item>
         <el-form-item label="职位列表">
-          <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="isIndeterminate"
+            @change="handleCheckAllChange"
+          >
             全选
           </el-checkbox>
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :key="city" :label="city" :value="city">
+          <el-checkbox-group
+            v-model="checkedCities"
+            @change="handleCheckedCitiesChange"
+          >
+            <el-checkbox
+              v-for="city in cities"
+              :key="city"
+              :label="city"
+              :value="city"
+            >
               {{ city }}
             </el-checkbox>
           </el-checkbox-group>
