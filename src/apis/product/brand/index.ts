@@ -1,6 +1,6 @@
 // 品牌管理模块接口
 import request from '@/utils/request.ts'
-import type { brandPageListResponseData, brand } from './type'
+import type { BrandPageListResponseData, Brand } from './type'
 import { AxiosRequestConfig } from 'axios'
 
 // 统一管理接口
@@ -18,15 +18,15 @@ enum API {
 export const reqGetBrandPageList = (
   page: number,
   limit: number,
-): Promise<brandPageListResponseData> =>
-  request.customRequest<brandPageListResponseData>({
+): Promise<BrandPageListResponseData> =>
+  request.customRequest<BrandPageListResponseData>({
     method: 'get',
     url: `${API.BRAND_URL}/${page}/${limit}`,
   })
 
 // 添加或修改品牌接口的方法
-export const reqUpsertBrand = (brand: brand): Promise<null> => {
-  let config: AxiosRequestConfig<brand> = { data: brand }
+export const reqUpsertBrand = (brand: Brand): Promise<null> => {
+  let config: AxiosRequestConfig<Brand> = { data: brand }
   if (brand.id) {
     // 修改
     config.method = 'put'

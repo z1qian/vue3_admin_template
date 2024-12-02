@@ -40,8 +40,8 @@ const switchFold = () => {
 
 <style scoped lang="scss">
 .breadcrumb {
-  height: 100%;
   display: flex;
   align-items: center;
+  height: 100%;
 }
 </style>

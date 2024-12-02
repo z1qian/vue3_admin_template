@@ -9,8 +9,8 @@ function createUserList(): userResponseMockData[] {
     {
       avatar:
         'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-      name: '大哥别动我',
-      password: '1234567890Zxc',
+      name: 'admin',
+      password: '111111',
       roles: ['超级管理员'],
       buttons: [
         'cuser.detail',
@@ -102,7 +102,7 @@ function createUserList(): userResponseMockData[] {
         'OrderList',
         'Sku',
       ],
-      token: 'ziqianttttttttttttttttttttttttoken',
+      token: 'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSSkzJzcxT0lFKrShQsjI0MzQzMTK1NDGvBQApMebnIAAAAA.UG2Qj7F7ASMLBugNG67-wKs0Un6ORrneMkSdio0rKhX0o-fd6BC24T1gCzfVVtsNERPzs4Sjwz8JOyPfLazUSA',
     },
   ]
 }

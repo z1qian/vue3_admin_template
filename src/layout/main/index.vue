@@ -38,7 +38,7 @@ watch(refresh, () => {
 
 // 定义了动画的过渡效果
 .fade-enter-active {
-  transition: all 0.3s;
+  transition: all 0.7s;
 }
 
 // 定义了动画结束时的状态

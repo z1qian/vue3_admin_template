@@ -1,6 +1,6 @@
 // 分页的品牌数据类型
-export interface brandPageListResponseData {
-  records: brand[]
+export interface BrandPageListResponseData {
+  records: Brand[]
   total: number
   size: number
   current: number
@@ -8,7 +8,7 @@ export interface brandPageListResponseData {
   pages: number
 }
 
-export interface brand {
+export interface Brand {
   id?: number
   tmName: string
   logoUrl: string

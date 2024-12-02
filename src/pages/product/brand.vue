@@ -6,18 +6,18 @@ import {
   reqDelBrand,
 } from '@/apis/product/brand/index'
 import type {
-  brandPageListResponseData,
-  brand,
+  BrandPageListResponseData,
+  Brand,
 } from '@/apis/product/brand/type'
 import { ElMessage } from 'element-plus'
 import type { UploadRawFile, FormRules, FormInstance } from 'element-plus'
 
 const currentPage = ref<number>(1)
 const pageSize = ref<number>(3)
-const pagedBrandList = ref<brandPageListResponseData | undefined>()
+const pagedBrandList = ref<BrandPageListResponseData | undefined>()
 // 是否显示添加，修改品牌对话框
 const showDialog = ref<boolean>(false)
-const brandFormData = reactive<brand>({
+const brandFormData = reactive<Brand>({
   id: 0,
   tmName: '',
   logoUrl: '',
@@ -40,7 +40,7 @@ const validateUpload = (_rule: any, value: string, callback: any) => {
 }
 
 // 表单验证规则
-const rules = reactive<FormRules<brand>>({
+const rules = reactive<FormRules<Brand>>({
   tmName: [
     {
       required: true,
@@ -135,7 +135,7 @@ const addBrandBtn = async () => {
 }
 
 // 修改品牌按钮回调
-const editBrandBtn = async (row: brand) => {
+const editBrandBtn = async (row: Brand) => {
   // 清除表单验证信息，方式一
   // brandForm.value?.clearValidate();
   showDialog.value = true
@@ -264,19 +264,20 @@ const delBrand = async (id: number) => {
 
 <style scoped lang="scss">
 .avatar-uploader .avatar {
-  width: 178px;
+
   // height: 178px;
   display: block;
+  width: 178px;
 }
 </style>
 
 <style>
 .avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
   transition: var(--el-transition-duration-fast);
 }
 
@@ -285,10 +286,10 @@ const delBrand = async (id: number) => {
 }
 
 .el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
   width: 178px;
   height: 178px;
+  font-size: 28px;
+  color: #8c939d;
   text-align: center;
 }
 </style>

@@ -73,8 +73,10 @@ const { menuRouters } = useUserStore()
         .el-menu {
           // 菜单的背景颜色
           --el-menu-bg-color: $base-menu-background-color;
+
           // 菜单的文字颜色
           --el-menu-text-color: #fff;
+
           border-right: none;
         }
       }

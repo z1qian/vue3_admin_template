@@ -1,7 +1,7 @@
 import { MockMethod } from 'vite-plugin-mock'
 import type {
-  brandPageListResponseData,
-  brand,
+  BrandPageListResponseData,
+  Brand,
 } from '../../src/apis/product/brand/type'
 import type { paginatedResponse, responseMockData } from '../type'
 
@@ -9,8 +9,8 @@ import type { paginatedResponse, responseMockData } from '../type'
 function getpagedBrandList(
   page: number,
   limit: number,
-): brandPageListResponseData {
-  const brandList: brand[] = [
+): BrandPageListResponseData {
+  const brandList: Brand[] = [
     {
       id: 1,
       tmName: '小米',
@@ -150,7 +150,7 @@ const mock: MockMethod[] = [
   {
     url: '/admin/product/baseTrademark/:page/:limit', //请求地址
     method: 'get', //请求方式
-    response: ({ query, url }): responseMockData<paginatedResponse<brand>> => {
+    response: ({ query, url }): responseMockData<paginatedResponse<Brand>> => {
       // 使用 :page 和 :limit 定义动态路由参数，query 可直接读取对应值。
       const { page, limit } = query
       const pageNum = parseInt(page, 10) || 1 // 当前页码

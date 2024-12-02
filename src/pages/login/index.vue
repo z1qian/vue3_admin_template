@@ -11,8 +11,8 @@ import type { loginFormData } from '@/apis/user/type'
 
 // 收集账号与密码的数据
 let formData = reactive<loginFormData>({
-  username: '大哥别动我',
-  password: '1234567890Zxc',
+  username: 'admin',
+  password: '111111',
 })
 
 // 控制按钮的loading状态
@@ -25,7 +25,7 @@ const validateUserName = (_: any, value: string, callback: any) => {
   // 手机号验证的正则表达式
   const phoneRegex = /^1[3-9]\d{9}$/
 
-  if (value === 'admin' || phoneRegex.test(value) || value === '大哥别动我') {
+  if (value === 'admin' || phoneRegex.test(value)) {
     callback()
   } else {
     callback(new Error('请输入你的手机号'))
@@ -116,12 +116,13 @@ const login = async (formEl: FormInstance | undefined) => {
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="{ span: 22, offset: 2 }">
         <!-- 登录的表单 -->
+        <!-- <el-form class="login_form" ref="loginForm" :model="formData" status-icon :rules="rules" inline-message> -->
+        <!-- 关闭了表单验证 -->
         <el-form
           class="login_form"
           ref="loginForm"
           :model="formData"
           status-icon
-          :rules="rules"
           inline-message
         >
           <h1>Hello</h1>
@@ -167,21 +168,21 @@ const login = async (formEl: FormInstance | undefined) => {
 
   .login_form {
     position: relative;
-    width: 65%;
     top: 30vh;
+    width: 65%;
+    padding: 40px;
     background: url('@/assets/images/login_form.png');
     background-size: cover;
-    padding: 40px;
 
     h1 {
-      color: white;
       font-size: 40px;
+      color: white;
     }
 
     h2 {
-      color: white;
-      font-size: 20px;
       margin: 20px 0;
+      font-size: 20px;
+      color: white;
     }
 
     .login_btn {

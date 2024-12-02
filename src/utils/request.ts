@@ -46,7 +46,6 @@ request.interceptors.response.use(
       })
       return Promise.reject(data)
     }
-
     // 简化数据
     return data.data === undefined ? {} : data.data
   },

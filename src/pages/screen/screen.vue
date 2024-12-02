@@ -1,8 +1,10 @@
-<script setup lang="ts" name="screen"></script>
+<script setup lang='ts' name='screen'>
+
+</script>
 
 <template>
   <div class="screen">
-    <h1>一级路由数据大屏</h1>
+    <h1>大屏</h1>
   </div>
 </template>
 

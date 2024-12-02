@@ -65,15 +65,15 @@ const logout = async () => {
 
 <style scoped lang="scss">
 .setting {
-  height: 100%;
   display: flex;
   align-items: center;
+  height: 100%;
 
   .el-dropdown-link {
-    cursor: pointer;
-    color: var(--el-color-primary);
     display: flex;
     align-items: center;
+    color: var(--el-color-primary);
+    cursor: pointer;
   }
 }
 </style>

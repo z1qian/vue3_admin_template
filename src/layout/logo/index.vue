@@ -11,12 +11,12 @@ import setting from '@/setting'
 
 <style scoped lang="scss">
 .logo {
-  width: 100%;
-  height: $base-menu-logo-height;
-  color: #fff;
   display: flex;
   align-items: center;
+  width: 100%;
+  height: $base-menu-logo-height;
   padding: 0 10px;
+  color: #fff;
 
   img {
     width: 40px;
@@ -24,13 +24,13 @@ import setting from '@/setting'
   }
 
   p {
+    flex: 1;
+    margin-left: 10px;
+    overflow: hidden;
     font-size: $base-logo-title-fontSize;
     font-weight: bold;
-    margin-left: 10px;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>
