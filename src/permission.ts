@@ -38,6 +38,8 @@ router.beforeEach(async (to, _, next) => {
     if (!userStore.userInfo) {
       try {
         await userStore.setUserInfo()
+        next(to)
+        return
       } catch (error) {
         // token过期
         // token被修改

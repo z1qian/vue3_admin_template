@@ -15,6 +15,7 @@ import '@/styles/index.scss'
 import router from './router'
 // 引入仓库
 import pinia from './stores'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 // 获取应用的实例对象
 const app = createApp(App)
@@ -35,5 +36,8 @@ app.use(pinia)
 // 引入路由鉴权文件
 import './permission'
 
+//引入自定义指令文件
+import { isHasButtonPermission } from '@/directive/hasBtnPermission';
+isHasButtonPermission(app);
 // 将应用挂载到挂载点上
 app.mount('#app')

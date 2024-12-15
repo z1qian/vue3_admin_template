@@ -7,6 +7,8 @@ enum API {
   GETPAGEDUSER_URL = '/admin/acl/user',
   ADDUSER_URL = '/admin/acl/user/save',
   UPDATEUSER_URL = '/admin/acl/user/update',
+  DELETEUSER_URL = '/admin/acl/user/remove',
+  DELETERANGEUSER_URL = '/admin/acl/user/batchRemove'
 }
 
 // 暴露请求函数
@@ -15,10 +17,12 @@ enum API {
 export const reqGetPagedUser = (
   page: number,
   limit: number,
+  username: string
 ): Promise<PagedUserResponse> =>
   request.customRequest<PagedUserResponse>({
     method: 'get',
     url: `${API.GETPAGEDUSER_URL}/${page}/${limit}`,
+    params: { username }
   })
 
 // 添加或者修改管理员用户
@@ -37,3 +41,19 @@ export const reqUpsertUser = (data: UserRecord): Promise<null> => {
     })
   }
 }
+
+// 根据Id删除用户
+export const reqDeleteUserById = (userId: number
+): Promise<null> =>
+  request.customRequest<null>({
+    method: 'delete',
+    url: `${API.DELETEUSER_URL}/${userId}`,
+  })
+
+// 批量删除用户
+export const reqDeleteRangeUser = (userIdList: number[]): Promise<null> =>
+  request.customRequest<null>({
+    method: 'delete',
+    url: API.DELETERANGEUSER_URL,
+    data: userIdList
+  })

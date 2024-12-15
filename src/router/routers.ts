@@ -1,5 +1,5 @@
 // 对外暴露配置的路由
-export const constantRoute = [
+export const constantRoutes = [
   // 登录
   {
     path: '/login',
@@ -53,7 +53,10 @@ export const constantRoute = [
       show: true,
       icon: 'DataAnalysis',
     },
-  },
+  }
+]
+
+export const asyncRoutes = [
   // 权限管理
   {
     path: '/acl',
@@ -151,15 +154,16 @@ export const constantRoute = [
         },
       },
     ],
-  },
-  // 任意路由
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
-    name: 'any',
-    meta: {
-      title: '任意路由',
-      show: false,
-    },
-  },
+  }
 ]
+
+// 任意路由
+export const anyRoute = {
+  path: '/:pathMatch(.*)*',
+  redirect: '/404',
+  name: 'any',
+  meta: {
+    title: '任意路由',
+    show: false,
+  }
+}
