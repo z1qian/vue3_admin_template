@@ -94,7 +94,7 @@ const login = async (formEl: FormInstance | undefined) => {
       // 验证成功
       loading.value = true
       await userStore.userLogin(formData)
-      await userStore.setUserInfo();
+      await userStore.setUserInfo()
       // 跳转到指定路由
       const redirect = route.query.redirect as string | undefined
       router.push(redirect || '/')
@@ -119,18 +119,38 @@ const login = async (formEl: FormInstance | undefined) => {
         <!-- 登录的表单 -->
         <!-- <el-form class="login_form" ref="loginForm" :model="formData" status-icon :rules="rules" inline-message> -->
         <!-- 关闭了表单验证 -->
-        <el-form class="login_form" ref="loginForm" :model="formData" status-icon inline-message>
+        <el-form
+          class="login_form"
+          ref="loginForm"
+          :model="formData"
+          status-icon
+          inline-message
+        >
           <h1>Hello</h1>
           <h2>欢迎来到硅谷甄选</h2>
           <el-form-item prop="username">
-            <el-input :prefix-icon="User" v-model.trim="formData.username" placeholder="请输入用户名"></el-input>
+            <el-input
+              :prefix-icon="User"
+              v-model.trim="formData.username"
+              placeholder="请输入用户名"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" :prefix-icon="Lock" v-model.trim="formData.password" show-password
-              placeholder="请输入密码"></el-input>
+            <el-input
+              type="password"
+              :prefix-icon="Lock"
+              v-model.trim="formData.password"
+              show-password
+              placeholder="请输入密码"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button :loading="loading" type="primary" class="login_btn" @click="login(loginForm)">
+            <el-button
+              :loading="loading"
+              type="primary"
+              class="login_btn"
+              @click="login(loginForm)"
+            >
               登录
             </el-button>
           </el-form-item>

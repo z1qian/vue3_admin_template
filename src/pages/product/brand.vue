@@ -162,45 +162,101 @@ const delBrand = async (id: number) => {
 <template>
   <div class="brand">
     <el-card>
-      <el-button type="primary" icon="plus" @click="addBrandBtn" v-hasBtn="'btn.Trademark.add'">
+      <el-button
+        type="primary"
+        icon="plus"
+        @click="addBrandBtn"
+        v-hasBtn="'btn.Trademark.add'"
+      >
         添加品牌
       </el-button>
       <!-- 品牌数据展示表格 -->
-      <el-table style="width: 100%; margin: 10px 0" border :data="pagedBrandList?.records">
-        <el-table-column type="index" label="序号" width="80px" align="center" />
+      <el-table
+        style="width: 100%; margin: 10px 0"
+        border
+        :data="pagedBrandList?.records"
+      >
+        <el-table-column
+          type="index"
+          label="序号"
+          width="80px"
+          align="center"
+        />
         <el-table-column prop="tmName" label="品牌名称" />
         <el-table-column label="品牌Logo" v-slot="{ row }">
           <img :src="row.logoUrl" alt="" width="100px" />
         </el-table-column>
         <el-table-column label="品牌操作" v-slot="{ row }">
-          <el-button type="primary" icon="edit" size="small" @click="editBrandBtn(row)"
-            v-hasBtn="'btn.Trademark.update'"></el-button>
-          <el-popconfirm :title="`你确定要删除【${row.tmName}】吗?`" width="auto" icon="delete" @confirm="delBrand(row.id)">
+          <el-button
+            type="primary"
+            icon="edit"
+            size="small"
+            @click="editBrandBtn(row)"
+            v-hasBtn="'btn.Trademark.update'"
+          ></el-button>
+          <el-popconfirm
+            :title="`你确定要删除【${row.tmName}】吗?`"
+            width="auto"
+            icon="delete"
+            @confirm="delBrand(row.id)"
+          >
             <template #reference>
-              <el-button type="danger" icon="delete" size="small" v-hasBtn="'btn.Trademark.remove'"></el-button>
+              <el-button
+                type="danger"
+                icon="delete"
+                size="small"
+                v-hasBtn="'btn.Trademark.remove'"
+              ></el-button>
             </template>
           </el-popconfirm>
         </el-table-column>
       </el-table>
       <!-- 分页器 -->
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[3, 6, 9, 12]"
-        size="default" background layout="prev, pager, next, jumper, -> , sizes, total"
-        :total="pagedBrandList?.total ?? 0" @current-change="getBrandPageList" @size-change="sizeChange"
-        @change="change" />
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[3, 6, 9, 12]"
+        size="default"
+        background
+        layout="prev, pager, next, jumper, -> , sizes, total"
+        :total="pagedBrandList?.total ?? 0"
+        @current-change="getBrandPageList"
+        @size-change="sizeChange"
+        @change="change"
+      />
     </el-card>
     <!-- 添加，修改品牌对话框 -->
     <el-dialog v-model="showDialog" :title="dialogTitle">
       <!-- 品牌数据表单 -->
-      <el-form :model="brandFormData" label-width="100px" label-position="left" style="width: 80%" :rules="rules"
-        ref="brandForm">
+      <el-form
+        :model="brandFormData"
+        label-width="100px"
+        label-position="left"
+        style="width: 80%"
+        :rules="rules"
+        ref="brandForm"
+      >
         <el-form-item label="品牌名称" prop="tmName">
-          <el-input v-model.trim="brandFormData.tmName" placeholder="请输入品牌名称" />
+          <el-input
+            v-model.trim="brandFormData.tmName"
+            placeholder="请输入品牌名称"
+          />
         </el-form-item>
         <el-form-item label="品牌Logo" prop="logoUrl">
-          <el-upload drag accept=".jpeg, .jpg, .png, .gif" class="avatar-uploader"
-            action="/api/admin/product/fileUpload" :show-file-list="false" :before-upload="beforeUpload"
-            :on-success="onSuccess">
-            <img v-if="brandFormData.logoUrl" :src="brandFormData.logoUrl" class="avatar" />
+          <el-upload
+            drag
+            accept=".jpeg, .jpg, .png, .gif"
+            class="avatar-uploader"
+            action="/api/admin/product/fileUpload"
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+            :on-success="onSuccess"
+          >
+            <img
+              v-if="brandFormData.logoUrl"
+              :src="brandFormData.logoUrl"
+              class="avatar"
+            />
             <el-icon v-else class="avatar-uploader-icon">
               <Plus />
             </el-icon>

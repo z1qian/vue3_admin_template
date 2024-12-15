@@ -53,7 +53,7 @@ export const constantRoutes = [
       show: true,
       icon: 'DataAnalysis',
     },
-  }
+  },
 ]
 
 export const asyncRoutes = [
@@ -154,7 +154,7 @@ export const asyncRoutes = [
         },
       },
     ],
-  }
+  },
 ]
 
 // 任意路由
@@ -165,5 +165,5 @@ export const anyRoute = {
   meta: {
     title: '任意路由',
     show: false,
-  }
+  },
 }

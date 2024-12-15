@@ -1,33 +1,32 @@
-<script setup lang='ts' name='screen'>
+<script setup lang="ts" name="screen">
 import { ref, onMounted } from 'vue'
 import top from './components/top.vue'
-import gender from './components/gender.vue';
-import age from './components/age.vue';
-import tourist from './components/tourist.vue';
-import chinamap from './components/map/map.vue';
-import future from './components/future.vue';
-import rank from './components/rank.vue';
-import year from './components/year.vue';
-import order from './components/order.vue';
+import gender from './components/gender.vue'
+import age from './components/age.vue'
+import tourist from './components/tourist.vue'
+import chinamap from './components/map/map.vue'
+import future from './components/future.vue'
+import rank from './components/rank.vue'
+import year from './components/year.vue'
+import order from './components/order.vue'
 
 // 实际大屏展示区域
-const content = ref();
+const content = ref()
 
 onMounted(() => {
   content.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
 })
 
 function getScale(w = 1920, h = 1080) {
-  const ww = window.innerWidth / w;
-  const wh = window.innerHeight / h;
-  return ww < wh ? ww : wh;
+  const ww = window.innerWidth / w
+  const wh = window.innerHeight / h
+  return ww < wh ? ww : wh
 }
 
 //监听视口变化
 window.onresize = () => {
   content.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
 }
-
 </script>
 
 <template>
@@ -86,7 +85,7 @@ window.onresize = () => {
         width: 426px;
         display: flex;
         flex-direction: column;
-        padding-left: 40px
+        padding-left: 40px;
       }
 
       .middle {
@@ -97,7 +96,7 @@ window.onresize = () => {
 
       .right {
         width: 426px;
-        padding-right: 40px
+        padding-right: 40px;
       }
     }
   }

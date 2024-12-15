@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { constantRoutes } from './routers'
 
-console.log("开始创建路由器");
+console.log('开始创建路由器')
 // 创建路由器
 const router = createRouter({
   // 路由模式hash

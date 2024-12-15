@@ -10,9 +10,9 @@ import { setToken, getToken, removeToken } from '@/utils/token'
 import type { RouteRecordRaw } from 'vue-router'
 // 引入路由（常量路由）
 import { constantRoutes, asyncRoutes, anyRoute } from '@/router/routers'
-import router from '@/router';
+import router from '@/router'
 // @ts-ignore
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep'
 
 // 创建用户小仓库，并对外暴露
 export default defineStore('User', () => {
@@ -23,7 +23,7 @@ export default defineStore('User', () => {
   // 保存用户信息
   const userInfo = ref<userResponseData | undefined>()
   // 用户拥有权限的路由
-  const permissionMenu = ref<RouteRecordRaw[]>([]);
+  const permissionMenu = ref<RouteRecordRaw[]>([])
 
   // 用户登录的方法
   const userLogin = async (loginData: loginFormData) => {
@@ -37,9 +37,14 @@ export default defineStore('User', () => {
   const setUserInfo = async () => {
     let res = await reqGetUserInfo()
     userInfo.value = res
-    const asyncRoutesCopy: RouteRecordRaw[] = cloneDeep(asyncRoutes);
-    registerUserPermissionMenus(constantRoutes, asyncRoutesCopy, anyRoute, userInfo.value.routes);
-    console.log(router.getRoutes());
+    const asyncRoutesCopy: RouteRecordRaw[] = cloneDeep(asyncRoutes)
+    registerUserPermissionMenus(
+      constantRoutes,
+      asyncRoutesCopy,
+      anyRoute,
+      userInfo.value.routes,
+    )
+    console.log(router.getRoutes())
   }
 
   // 用户登出
@@ -48,41 +53,49 @@ export default defineStore('User', () => {
     token.value = ''
     removeToken()
     userInfo.value = undefined
-    resetRouter();
+    resetRouter()
   }
 
   // 清除注册的路由
   const resetRouter = () => {
-    permissionMenu.value.forEach(route => {
+    permissionMenu.value.forEach((route) => {
       // 移除当前用户的路由
-      router.removeRoute(route.name as string);
+      router.removeRoute(route.name as string)
     })
-    console.log(router.getRoutes());
+    console.log(router.getRoutes())
   }
 
   // 动态注册用户拥有权限的菜单
-  const registerUserPermissionMenus = (constantRoutes: RouteRecordRaw[], asyncRoutes: RouteRecordRaw[], anyRoutes: RouteRecordRaw, userPermission: string[]) => {
-    let resRoutes = filterAsyncRoutes(asyncRoutes, userPermission);
-    permissionMenu.value = resRoutes;
-    let registerRoutes = [...resRoutes, anyRoutes];
-    menuRouters.value = [...constantRoutes, ...registerRoutes];
+  const registerUserPermissionMenus = (
+    constantRoutes: RouteRecordRaw[],
+    asyncRoutes: RouteRecordRaw[],
+    anyRoutes: RouteRecordRaw,
+    userPermission: string[],
+  ) => {
+    let resRoutes = filterAsyncRoutes(asyncRoutes, userPermission)
+    permissionMenu.value = resRoutes
+    let registerRoutes = [...resRoutes, anyRoutes]
+    menuRouters.value = [...constantRoutes, ...registerRoutes]
     //目前路由器管理的只有常量路由:用户计算完毕异步路由、任意路由动态追加
     registerRoutes.forEach((route: RouteRecordRaw) => {
-      router.addRoute(route);
-    });
+      router.addRoute(route)
+    })
   }
 
-  const filterAsyncRoutes = (asyncRoutes: RouteRecordRaw[], userPermission: string[]) => {
-    return asyncRoutes.filter(route => {
+  const filterAsyncRoutes = (
+    asyncRoutes: RouteRecordRaw[],
+    userPermission: string[],
+  ) => {
+    return asyncRoutes.filter((route) => {
       if (userPermission.includes(route.name as string)) {
         if (route.children && route.children.length > 0) {
-          route.children = filterAsyncRoutes(route.children, userPermission);
+          route.children = filterAsyncRoutes(route.children, userPermission)
         }
 
-        return true;
+        return true
       }
 
-      return false;
+      return false
     })
   }
   return { userLogin, token, menuRouters, setUserInfo, userInfo, logout }

@@ -13,12 +13,14 @@ const userStore = useUserStore()
       <div class="box">
         <el-avatar :size="100" :src="userStore.userInfo?.avatar" />
         <div class="content">
-          <div class="title">{{ `${getTimePeriod()}好呀，${userStore.userInfo?.name}` }}</div>
+          <div class="title">
+            {{ `${getTimePeriod()}好呀，${userStore.userInfo?.name}` }}
+          </div>
           <div class="subTitle">{{ setting.title }}</div>
         </div>
       </div>
     </el-card>
-    <div style="display: flex;justify-content: center;margin-top: 20px;">
+    <div style="display: flex; justify-content: center; margin-top: 20px">
       <svg-icon name="welcome" width="800px" height="400px"></svg-icon>
     </div>
   </div>

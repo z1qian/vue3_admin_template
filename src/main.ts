@@ -37,7 +37,7 @@ app.use(pinia)
 import './permission'
 
 //引入自定义指令文件
-import { isHasButtonPermission } from '@/directive/hasBtnPermission';
-isHasButtonPermission(app);
+import { isHasButtonPermission } from '@/directive/hasBtnPermission'
+isHasButtonPermission(app)
 // 将应用挂载到挂载点上
 app.mount('#app')
